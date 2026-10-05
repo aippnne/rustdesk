@@ -750,7 +750,8 @@ Future<bool?> _openLoginDialog() async {
     }
   }
 
-  Future.delayed(Duration.zero, fetchLoginOptions);
+  // 移除 OIDC 登录选项自动预加载请求（与 1.4.6 行为一致），
+  // 登录框打开时不再请求 /api/login-options，避免域名被拦时弹出 FormatException。
 
   final res = await gFFI.dialogManager.show<bool>((setState, close, context) {
     username.addListener(() {

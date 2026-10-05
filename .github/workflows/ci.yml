@@ -24,6 +24,9 @@ on:
       - "appimage/**"
       - "flatpak/**"
 
+permissions:
+  contents: write
+
 jobs:
   # ensure_cargo_fmt:
   #   name: Ensure 'cargo fmt' has been run

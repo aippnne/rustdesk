@@ -31,9 +31,12 @@ else()
 endif()
 
 set(aom_target_cpu "")
-if(VCPKG_TARGET_IS_UWP OR (VCPKG_TARGET_IS_WINDOWS AND VCPKG_TARGET_ARCHITECTURE MATCHES "^arm"))
+if(VCPKG_TARGET_IS_ANDROID OR VCPKG_TARGET_IS_UWP OR (VCPKG_TARGET_IS_WINDOWS AND VCPKG_TARGET_ARCHITECTURE MATCHES "^arm"))
     # UWP + aom's assembler files result in weirdness and build failures
     # Also, disable assembly on ARM and ARM64 Windows to fix compilation issues.
+    # Android: CMake 4.x + NDK clang fails check_language(ASM)/enable_language(ASM)
+    # (TryCompile errors: pthread_cancel undeclared / CMAKE_ASM_COMPILER unknown),
+    # so fall back to generic CPU (no hand-written assembly) to keep configure green.
     set(aom_target_cpu "-DAOM_TARGET_CPU=generic")
 endif()
 
